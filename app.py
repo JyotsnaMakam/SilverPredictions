@@ -230,4 +230,4 @@ if user_input:
 
 # Suggested questions
 if len(st.session_state.chat_history) == 0:
- st.info("💡 Try asking: What is silver? How to invest? Gold vs Silver? Market trends?")
+ st.info("💡 Try asking: What is silver?What is gold? How to invest? Gold vs Silver? Market trends?")
