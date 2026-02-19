@@ -50,7 +50,11 @@ with st.spinner('Fetching latest market prices...'):
 
 # Get Current Prices from ETFs
 cur_gld_etf = gold_data['Close'].iloc[-1].item()
-cur_slv_etf = silv_data['Close'].iloc[-1].item()
+if not silv_data.empty:
+ cur_slv_etf = silv_data['Close'].iloc[-1].item()
+else:
+  st.error("Could not fetch latest silver Data.Please try again later.")
+  st.stop()
 
 # Get SPOT prices (USD per troy ounce) from futures - if available
 if gc_data is not None and len(gc_data) > 0:
@@ -124,18 +128,6 @@ if amount_inr > 0:
  st.sidebar.write("---")
  st.sidebar.write(f"**Per Gram (USD):** ${gold_price_per_gram_usd:.2f}")
  st.sidebar.write(f"**Per Gram (INR):** ₹{gold_24k_inr:.2f}")
- 
- # Gold Karat Prices
- st.sidebar.write("---")
- st.sidebar.write("**🏆 Gold Prices by Karat:**")
- 
- col1, col2 = st.sidebar.columns(2)
- with col1:
-  st.metric("24K Gold", f"₹{gold_24k_inr:.0f}/g", f"${gold_24k_usd:.2f}/g", delta_color="off")
- with col2:
-  st.metric("22K Gold", f"₹{gold_22k_inr:.0f}/g", f"${gold_22k_usd:.2f}/g", delta_color="off")
- 
- st.sidebar.metric("18K Gold", f"₹{gold_18k_inr:.0f}/g", f"${gold_18k_usd:.2f}/g", delta_color="off")
  
  st.sidebar.write("---")
  st.sidebar.write("**📊 You can buy:**")
