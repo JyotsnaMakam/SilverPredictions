@@ -1,5 +1,5 @@
 import streamlit as st
-st.tilte("🧮 Silver Investment Calculator")
+st.title("🧮 Silver Investment Calculator")
 price_per_gram = st.number_input("Enter current silver price per gram (USD)", min_value=0.0, value=92.5)
 budget=st.number_input("Your Budget (rs)", min_value=0.0, value=100000.0)
 if price_per_gram>0:
