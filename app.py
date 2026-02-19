@@ -29,6 +29,15 @@ bot = load_chatbot()
 # Initialize chat history
 if "chat_history" not in st.session_state:
  st.session_state.chat_history = []
+# page for simple multi-page navigation: 'main' or 'city'
+if "page" not in st.session_state:
+  st.session_state.page = "main"
+
+def go_to_city():
+  st.session_state.page = "city"
+
+def go_back():
+  st.session_state.page = "main"
 
 # 3. Sidebar Inputs
 st.sidebar.header("📊 Settings")
@@ -223,3 +232,43 @@ if user_input:
 # Suggested questions
 if len(st.session_state.chat_history) == 0:
  st.info("💡 Try asking: What is silver?What is gold? How to invest? Gold vs Silver? Market trends?")
+
+# Page navigation: Proceed button to go to city selector
+if st.session_state.page == "main":
+  st.write("\n")
+  if st.button("Proceed", use_container_width=True):
+    go_to_city()
+
+elif st.session_state.page == "city":
+  st.header("Select City for Local Silver Price")
+  # compute silver per gram in INR
+  silver_price_per_gram_usd = cur_silver_spot_usd / troy_oz_to_grams
+  silver_price_per_gram_inr = silver_price_per_gram_usd * usd_inr_rate
+
+  # Example city premiums (fixed INR per gram) - adjust as needed
+  city_premium_inr = {
+    "Mumbai": 20.0,
+    "Delhi": 15.0,
+    "Bengaluru": 10.0,
+    "Chennai": 12.0,
+    "Kolkata": 18.0,
+    "Hyderabad": 14.0,
+    "Pune": 9.0,
+    "Ahmedabad": 22.0,
+    "Surat": 16.0,
+    "Jaipur": 13.0
+  }
+
+  city = st.selectbox("Choose city:", list(city_premium_inr.keys()))
+
+  # Calculate city silver price per gram (INR) using base + fixed premium
+  premium = city_premium_inr.get(city, 0.0)
+  price_inr = silver_price_per_gram_inr + premium
+
+  # Display base, premium and final price
+  st.write(f"Base silver price (INR/g): ₹{silver_price_per_gram_inr:,.2f}")
+  st.write(f"Local premium for {city}: ₹{premium:.2f}/g")
+  st.text_input(f"Silver price in {city} (INR/gram)", value=f"₹{price_inr:,.2f}")
+
+  if st.button("Back to Dashboard"):
+    go_back()
