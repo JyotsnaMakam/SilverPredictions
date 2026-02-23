@@ -11,4 +11,6 @@ st.download_button(label="Download Data", data=csv, file_name="silver_data.csv",
 average_price = data['Close'].mean()
 current_price = data['Close'].iloc[-1]
 if current_price > average_price:
-    st.wa
+    st.warning("Price is above average")
+else:
+    st.success("Price is below average")   
