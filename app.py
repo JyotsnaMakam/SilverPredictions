@@ -68,24 +68,24 @@ else:
 # Get SPOT prices (USD per troy ounce) from futures - if available
 if gc_data is not None and len(gc_data) > 0:
  # GC futures price is per 100 oz, so divide by 100 to get per oz
- cur_gold_spot_usd = gc_data['Close'].iloc[-1].item() / 100
+ cur_gold_spot_usd = float(gc_data['Close'].iloc[-1].item() / 100)
 else:
  # Fallback: Since GLD = 0.1 oz per share, multiply by 10 to get per oz
- cur_gold_spot_usd = cur_gld_etf * 10
+ cur_gold_spot_usd = float(cur_gld_etf * 10)
 
 if si_data is not None and len(si_data) > 0:
  # SI futures price is per 5000 oz, so divide by 5000 to get per oz
- cur_silver_spot_usd = si_data['Close'].iloc[-1].item() / 5000
+ cur_silver_spot_usd = float(si_data['Close'].iloc[-1].item() / 5000)
 else:
  # Fallback: SLV = 1 oz per share
- cur_silver_spot_usd = cur_slv_etf
+ cur_silver_spot_usd = float(cur_slv_etf)
 
 # Get 10-Day Highs
 max_silv_10 = silv_data['High'].tail(10).max().item()
 max_gold_10 = gold_data['High'].tail(10).max().item()
 
 # Gold-to-Silver Ratio (using spot prices)
-gs_ratio = cur_gold_spot_usd / cur_silver_spot_usd
+gs_ratio = float(cur_gold_spot_usd / cur_silver_spot_usd)
 
 # Calculate Purchasing Power (USD to INR conversion: 1 USD = 91.09 INR)
 # Based on: 1 Lakh INR (100,000) = 1,097.80 USD
@@ -98,8 +98,8 @@ troy_oz_to_grams = 31.1035
 # Calculate gold and silver in grams based on SPOT prices
 # cur_gold_spot_usd = USD per troy ounce
 # cur_silver_spot_usd = USD per troy ounce
-silver_grams = (amount_usd / cur_silver_spot_usd) * troy_oz_to_grams
-gold_grams = (amount_usd / cur_gold_spot_usd) * troy_oz_to_grams
+silver_grams = float((amount_usd / cur_silver_spot_usd) * troy_oz_to_grams)
+gold_grams = float((amount_usd / cur_gold_spot_usd) * troy_oz_to_grams)
 
 # Calculate Gold Prices for Different Karats
 # cur_gold_spot_usd is the spot gold price in USD per troy ounce
