@@ -10,7 +10,7 @@ if not data.empty:
    else:
     st.success("Current price is below the 1-year average. This could be a potential buying opportunity, but always consider market trends and do your research before investing.")   
    st.line_chart(data['Close'])
-   csv=data.to_csv().encode('utf-8') 
+   csv=data.to_csv(index=True).encode('utf-8') 
    st.download_button(label="Download Data", data=csv, file_name="silver_data.csv", mime="text/csv")
 else:
     st.error("Could not fetch silver data. Please try again later.")    
