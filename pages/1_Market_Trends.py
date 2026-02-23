@@ -2,11 +2,12 @@ import streamlit as st
 import yfinance as yf
 st.title("📈 Market Trends: Silver")
 data = yf.download("SLV", period="1y", progress=False)
+csv=data.to_csv().encode('utf-8') 
+st.download_button(label="Download Data", data=csv, file_name="silver_data.csv", mime="text/csv")
 if not data.empty:
    average_price = data['Close'].mean()
    current_price = data['Close'].iloc[-1]
-   csv=data.to_csv().encode('utf-8') 
-   st.download_button(label="Download Data", data=csv, file_name="silver_data.csv", mime="text/csv")
+   
    if current_price > average_price:
     st.warning(f"Current price (${current_price:.2f}) is above the 1-year average (${average_price:.2f}). Consider market trends before investing.")
    else:
