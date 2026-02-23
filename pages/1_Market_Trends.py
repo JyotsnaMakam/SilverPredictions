@@ -11,8 +11,8 @@ if not data.empty:
     st.warning(f"Current price (${current_price:.2f}) is above the 1-year average (${average_price:.2f}). Consider market trends before investing.")
    else:
     st.success("Current price is below the 1-year average. This could be a potential buying opportunity, but always consider market trends and do your research before investing.")   
-    st.line_chart(data['Close'], height=300)
-    csv=data.to_csv().encode('utf-8') 
-    st.download_button(label="Download Data", data=csv, file_name="silver_data.csv", mime="text/csv")
+   st.line_chart(data['Close'], height=300)
+   csv=data.to_csv().encode('utf-8') 
+   st.download_button(label="Download Data", data=csv, file_name="silver_data.csv", mime="text/csv")
 else:
     st.error("Could not fetch silver data. Please try again later.")    
