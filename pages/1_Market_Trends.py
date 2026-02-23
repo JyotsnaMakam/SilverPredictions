@@ -8,3 +8,7 @@ else:
     st.error("Could not fetch silver market data. Please try again later.")
 csv=data.to_csv().encode('utf-8') 
 st.download_button(label="Download Data", data=csv, file_name="silver_data.csv", mime="text/csv")
+average_price = data['Close'].mean()
+current_price = data['Close'].iloc[-1]
+if current_price > average_price:
+    st.wa
